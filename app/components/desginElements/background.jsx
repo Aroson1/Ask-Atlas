@@ -1,3 +1,9 @@
+/**
+ * Renders all the background elements - waves, lighthouse, rope and birds with the parallax effect.
+ * Each element is rendered as a separate layer having a certain depth away from the screen.
+ * Implemented using the parralax library.
+ * @returns {JSX.Element} The rendered background.
+ */
 import LightHouseDarkMode from "./lightHouseDarkMode";
 export default function Background() {
     return (

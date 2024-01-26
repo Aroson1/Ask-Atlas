@@ -1,3 +1,8 @@
+/**
+ * Renders the InfoBox component.
+ * 
+ * @returns {JSX.Element} The rendered InfoBox component.
+ */
 export default function InfoBox(){
     return (<div id="infoBox" className="z-10 px-5">
     <header>

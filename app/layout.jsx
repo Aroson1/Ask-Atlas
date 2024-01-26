@@ -1,24 +1,45 @@
+/**
+ * @fileoverview Root layout component for the Ask*Atlas application.
+ * @module layout
+ */
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import "./styles.css";
-import Parallax from 'parallax-js'
 
+/**
+ * Inter font configuration.
+ * @type {Object}
+ */
 const inter = Inter({ subsets: ["latin"] });
 
+/**
+ * Metadata for the website.
+ * @type {Object}
+ * @property {string} title - The title of the website.
+ * @property {string} description - The description of the website.
+ */
 export const metadata = {
   title: "Ask*Atlas",
   description: "A Q&A Chatbot powered by Google Gemini Pro made for the WinterHacks Hackathon.",
 };
 
+/**
+ * Root layout component.
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components.
+ * @returns {JSX.Element} The rendered root layout component.
+ */
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         {children}
+
         <>
           <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
           <title>Ask*Atlas | Q&A ChatBot</title>
-          
+
+          {/* All the metadata about the website */}
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
             name="viewport"
@@ -56,7 +77,7 @@ export default function RootLayout({ children }) {
         <script src="/assets/scripts/libraries.min.js"></script>
         <script src="/assets/scripts/jquery.parallax.js"></script>
         <script src="/assets/scripts/extra.js"></script>
-        <script type="module" src="/assets/scripts/gpt.js"></script>
+        <script type="module" src="/assets/scripts/imageChat.js"></script>
       </body>
     </html>
   );

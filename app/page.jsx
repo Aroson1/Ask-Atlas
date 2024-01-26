@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Background from "./components/desginElements/background";
 import Tilt from "./components/desginElements/tilt";
-import Toggle from "./components/desginElements/toggle";
+import Toggle from "./components/elements/toggle";
 import ContentBox from "./components/contentBox";
 export default function Home() {
   return (
@@ -10,8 +9,7 @@ export default function Home() {
       <Background />
       <ContentBox />
       <Toggle />
-      <Tilt />
-      
+      <Tilt />      
 
       <footer></footer>
     </div>

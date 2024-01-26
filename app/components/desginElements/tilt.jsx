@@ -1,3 +1,8 @@
+/**
+ * Renders the Tilt component.
+ * 
+ * @returns {JSX.Element} The rendered Tilt component.
+ */
 export default function Tilt() {
     return (<div id="prompt" className="wrapper prompt hide accelerate">
     <div className="cell accelerate">

@@ -47,7 +47,7 @@ $html.addClass(Hammer.HAS_TOUCHEVENTS ? 'touch' : 'mouse');
 window.onresize = _.debounce(resize, 200);
 window.onscroll = _.debounce(resize, 200);
 
-//-------------------------------------------------------------------
+//Toggel fuctionality for the main panel
 function showDetails() {
     $about.removeClass('hide');
     $toggle.removeClass('i');
@@ -62,10 +62,10 @@ function hideDetails() {
 $toggle.on('click', function (event) {
     $toggle.hasClass('i') ? showDetails() : hideDetails();
 });
-//-------------------------------------------------------------------
 
 
-//-------------------------------------------------------------------
+
+//Toggle fuctionality for the chat button
 function showChat() {
     $chat.removeClass('hidden');
     $infobox.addClass('hidden');
@@ -95,9 +95,9 @@ $chatbutton.on('click', function (event) {
     $chatbutton.hasClass('i') ? showChat() : hideChat();
 });
 
-//-------------------------------------------------------------------
 
-//check if imagechat button is clicked
+
+//Toggle fuctionality for the image chat button
 function showImageChat() {
     $infobox.addClass('hidden');
     $chat.addClass('hidden');
