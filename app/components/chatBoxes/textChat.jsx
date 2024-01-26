@@ -6,34 +6,7 @@ export default function TextChat() {
     const MODEL_NAME = "gemini-pro";
     const API_KEY = "AIzaSyCP6b77wDZov_QKQavjs1aYSDxeL-PgP-g";
     const [input, setInput] = useState('');
-
-
-    const generationConfig = {
-        temperature: 0.9,
-        topK: 1,
-        topP: 1,
-        maxOutputTokens: 2048,
-    };
-
-    const safetySettings = [
-        {
-            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-    ];
-    var history = [
+    const [totalHistory, setHistory] = useState([
         {
             role: "user",
             parts: [{ text: "You must act as a Question and answer bot, and provide answer to the follwing question in the most accurate answer possible to the given question. Limit your answers to 100 words." }],
@@ -66,15 +39,43 @@ export default function TextChat() {
             role: "model",
             parts: [{ text: "Sure. I am **Atlas**, a large language model. I am designed to provide informative and comprehensive answers to a wide range of questions.\n\nHere are some key things about me:\n\n- I have been trained on a massive dataset of text and code, which gives me access to a vast amount of knowledge.\n- I am able to understand and generate human language, which allows me to communicate effectively with people.\n- I can perform various tasks, such as answering questions, translating languages, summarizing text, and generating creative content.\n\nINSERT_NEW_LINE_HERE\n\nI am still under development, but I am learning and improving every day. My goal is to become a valuable tool that can assist people with their everyday tasks and provide them with the information they need.\n\nINSERT_NEW_LINE_HERE\n\nI am excited to continue learning and growing, and I look forward to helping people in any way that I can.\n\nIs there anything else you would like to know about me?" }],
         },
+    ]);
+
+    const generationConfig = {
+        temperature: 0.9,
+        topK: 1,
+        topP: 1,
+        maxOutputTokens: 2048,
+    };
+
+    const safetySettings = [
+        {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        },
+        {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        },
+        {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        },
+        {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        },
     ];
 
+    
+    //setHistory(history);
     async function runChat() {
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
         const chat = model.startChat({
             generationConfig,
             safetySettings,
-            history,
+            history: totalHistory,
         });
 
         if (input === '') return;
@@ -124,20 +125,12 @@ export default function TextChat() {
             </div>`
             )
             document.querySelector('#temp').innerText = response.text().replaceAll('INSERT_NEW_LINE_HERE', '');
-
             //remove the temp id
             document.querySelector('#temp').removeAttribute('id');
             //append the user and the model response to the history array in the correct format
-            history.push({
-                role: "user",
-                parts: [{ text: input }],
-            });
-            history.push({
-                role: "model",
-                parts: [{ text: response.text().replaceAll('INSERT_NEW_LINE_HERE', '\n') }],
-            });
+            setHistory([...totalHistory, { role: "user", parts:input}, { role: "model", parts: response.text().replaceAll('INSERT_NEW_LINE_HERE', '') }]);
             //print he last element in the history array
-            console.log(history[history.length - 1]);
+            console.log(totalHistory[totalHistory.length - 1]);
         }
         catch (e) {
             console.log(e);
@@ -160,57 +153,57 @@ export default function TextChat() {
 
 
     }
-    return (    <div id="chat" className="hidden p-2">
-    {/* Prompt Messages Container - Modify the height according to your need */}
-    <div className="flex h-[60vh] w-full flex-col">
-        {/* Prompt Messages */}
-        <div id="promptMessages"
-            className="flex-1 overflow-y-auto rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 light:bg-slate-800 light:text-slate-300 sm:text-base sm:leading-7"
-        >
-            <div className="flex flex-row px-2 py-4 sm:px-4">
-                <img
-                    className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                    src="https://dummyimage.com/256x256/363536/ffffff&text=U"
-                />
-
-                <div className="flex max-w-3xl items-center">
-                    <p>What can you do?</p>
-                </div>
-            </div>
-
-            <div
-                className="mb-4 flex rounded-xl bg-slate-50 px-2 py-6 light:bg-slate-900 sm:px-4"
+    return (<div id="chat" className="hidden p-2">
+        {/* Prompt Messages Container - Modify the height according to your need */}
+        <div className="flex h-[60vh] w-full flex-col">
+            {/* Prompt Messages */}
+            <div id="promptMessages"
+                className="flex-1 overflow-y-auto rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 light:bg-slate-800 light:text-slate-300 sm:text-base sm:leading-7"
             >
-                <img
-                    className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                    src="https://i.imgur.com/8TcGjnR.png"
-                />
+                <div className="flex flex-row px-2 py-4 sm:px-4">
+                    <img
+                        className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
+                        src="https://dummyimage.com/256x256/363536/ffffff&text=U"
+                    />
 
-                <div className="flex max-w-3xl items-center rounded-xl text-left">
-                    <p>
-                        As a Question and Answer bot, I can:
-                        <br />
-                        * Answer a wide range of questions on various topics, including general knowledge, science, history, geography, and more.
-                        <br />
-                        * Provide concise and accurate answers to your questions, usually in 100 words or fewer.
-                        <br />
-                        * Learn and improve my knowledge base over time, becoming more capable of answering complex questions.
-                        <br />
-                        * Interact with you in a friendly and informative manner.
-                        <br />
-                        * Provide factual information and data to the best of my abilities.
-
-                        <br />
-                        I'm still under development, but I'm always learning and striving to provide the most accurate and helpful answers to your questions.
-
-                        Is there anything specific you'd like to ask me?
-                    </p>
+                    <div className="flex max-w-3xl items-center">
+                        <p>What can you do?</p>
+                    </div>
                 </div>
-            </div>
 
-            {/* Second Prompt questions */}
-            {/* user input */}
-            {/* <div className="flex flex-row px-2 py-4 sm:px-4">
+                <div
+                    className="mb-4 flex rounded-xl bg-slate-50 px-2 py-6 light:bg-slate-900 sm:px-4"
+                >
+                    <img
+                        className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
+                        src="https://i.imgur.com/8TcGjnR.png"
+                    />
+
+                    <div className="flex max-w-3xl items-center rounded-xl text-left">
+                        <p>
+                            As a Question and Answer bot, I can:
+                            <br />
+                            * Answer a wide range of questions on various topics, including general knowledge, science, history, geography, and more.
+                            <br />
+                            * Provide concise and accurate answers to your questions, usually in 100 words or fewer.
+                            <br />
+                            * Learn and improve my knowledge base over time, becoming more capable of answering complex questions.
+                            <br />
+                            * Interact with you in a friendly and informative manner.
+                            <br />
+                            * Provide factual information and data to the best of my abilities.
+
+                            <br />
+                            I'm still under development, but I'm always learning and striving to provide the most accurate and helpful answers to your questions.
+
+                            Is there anything specific you'd like to ask me?
+                        </p>
+                    </div>
+                </div>
+
+                {/* Second Prompt questions */}
+                {/* user input */}
+                {/* <div className="flex flex-row px-2 py-4 sm:px-4">
                 <img
                     className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
                     src="https://dummyimage.com/256x256/363536/ffffff&text=U"
@@ -220,8 +213,8 @@ export default function TextChat() {
                     <p>Explain quantum computing in simple terms</p>
                 </div>
             </div> */}
-            {/* gpt response */}
-            {/* <div
+                {/* gpt response */}
+                {/* <div
                 className="mb-4 flex rounded-xl bg-slate-50 px-2 py-6 light:bg-slate-900 sm:px-4"
             >
                 <img
@@ -243,37 +236,37 @@ export default function TextChat() {
                     </p>
                 </div>
             </div> */}
-            {/* loading */}
+                {/* loading */}
 
 
+            </div>
+
+
+            {/* Prompt message input */}
+            <form className="mt-2">
+                <label htmlFor="chat-input" className="sr-only">Enter your prompt</label>
+                <div className="flex justify-center items-center">
+
+                    <textarea
+                        id="chat-input"
+                        className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 light:bg-slate-800 light:text-slate-200 light:placeholder-slate-400 light:focus:ring-blue-500 sm:text-base bg-grey placeholder-black text-blue"
+                        placeholder="Enter your prompt"
+                        rows="1"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        required
+                    ></textarea>
+                    <button
+                        type="button"
+                        id="chat-send"
+                        onClick={runChat}
+                        className="m-0.5 ml-1 pr-3 pl-3 z-10 rounded-xl bg-blue-700 text-sm font-medium text-slate-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800 sm:text-base"
+                    >
+                        Send <span className="sr-only">Send message</span>
+                    </button>
+                </div>
+            </form>
         </div>
 
-
-        {/* Prompt message input */}
-        <form className="mt-2">
-            <label htmlFor="chat-input" className="sr-only">Enter your prompt</label>
-            <div className="flex justify-center items-center">
-
-                <textarea
-                    id="chat-input"
-                    className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 light:bg-slate-800 light:text-slate-200 light:placeholder-slate-400 light:focus:ring-blue-500 sm:text-base bg-grey placeholder-black text-blue"
-                    placeholder="Enter your prompt"
-                    rows="1"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    required
-                ></textarea>
-                <button
-                    type="button"
-                    id="chat-send"
-                    onClick={runChat}
-                    className="m-0.5 ml-1 pr-3 pl-3 z-10 rounded-xl bg-blue-700 text-sm font-medium text-slate-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800 sm:text-base"
-                >
-                    Send <span className="sr-only">Send message</span>
-                </button>
-            </div>
-        </form>
-    </div>
-
-</div>);
+    </div>);
 }
