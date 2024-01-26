@@ -66,9 +66,14 @@ export default function TextChat() {
             threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
         },
     ];
+    function cleanResponse(response) {
+        var cleanText = response.text().replaceAll('INSERT_NEW_LINE_HERE', '');
+        cleanText = cleanText.replace(/\n{3,}/g, '\n \n');
+        return cleanText;
+        
+    }
 
-    
-    //setHistory(history);
+
     async function runChat() {
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
@@ -79,12 +84,9 @@ export default function TextChat() {
         });
 
         if (input === '') return;
-        // Clear the input
         setInput('');
         var promptBox = document.querySelector('#promptMessages');
-
-        // Send the user input to the chat
-        console.log(input);
+        // console.log(input);
 
         promptBox.insertAdjacentHTML(
             'beforeend',
@@ -103,17 +105,16 @@ export default function TextChat() {
             top: promptBox.scrollHeight,
             behavior: 'smooth'
         });
-        // add try catch block
+        
         try {
             const result = await chat.sendMessage(input);
             const response = result.response;
-            console.log(response.text().replaceAll('INSERT_NEW_LINE_HERE', '\n'));
-
-            // var atlasResponse = 
+            
             // Remove the loading animation
             var select = document.getElementById('promptMessages');
             select.removeChild(select.lastChild);
             promptBox.lastChild.remove();
+
             // set the inner text of the chat box to the response
             document.querySelector('#promptMessages').insertAdjacentHTML(
                 'beforeend',
@@ -124,14 +125,17 @@ export default function TextChat() {
             </div>
             </div>`
             )
-            document.querySelector('#temp').innerText = response.text().replaceAll('INSERT_NEW_LINE_HERE', '');
+            document.querySelector('#temp').innerText = cleanResponse(response);
+
             //remove the temp id
             document.querySelector('#temp').removeAttribute('id');
+
             //append the user and the model response to the history array in the correct format
-            setHistory([...totalHistory, { role: "user", parts:input}, { role: "model", parts: response.text().replaceAll('INSERT_NEW_LINE_HERE', '') }]);
-            //print he last element in the history array
-            console.log(totalHistory[totalHistory.length - 1]);
+            setHistory([...totalHistory, { role: "user", parts: input }, { role: "model", parts: response.text().replaceAll('INSERT_NEW_LINE_HERE', '') }]);
+            // print the last element in the history array
+            // console.log(totalHistory[totalHistory.length - 1]);
         }
+
         catch (e) {
             console.log(e);
             // Remove the loading animation
@@ -153,10 +157,11 @@ export default function TextChat() {
 
 
     }
-    return (<div id="chat" className="hidden p-2">
-        {/* Prompt Messages Container - Modify the height according to your need */}
+    return (
+    <div id="chat" className="hidden p-2">
+       
         <div className="flex h-[60vh] w-full flex-col">
-            {/* Prompt Messages */}
+            {/* Default Chat message */}
             <div id="promptMessages"
                 className="flex-1 overflow-y-auto rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 light:bg-slate-800 light:text-slate-300 sm:text-base sm:leading-7"
             >
@@ -200,45 +205,6 @@ export default function TextChat() {
                         </p>
                     </div>
                 </div>
-
-                {/* Second Prompt questions */}
-                {/* user input */}
-                {/* <div className="flex flex-row px-2 py-4 sm:px-4">
-                <img
-                    className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                    src="https://dummyimage.com/256x256/363536/ffffff&text=U"
-                />
-
-                <div className="flex max-w-3xl items-center">
-                    <p>Explain quantum computing in simple terms</p>
-                </div>
-            </div> */}
-                {/* gpt response */}
-                {/* <div
-                className="mb-4 flex rounded-xl bg-slate-50 px-2 py-6 light:bg-slate-900 sm:px-4"
-            >
-                <img
-                    className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                    src="https://i.imgur.com/8TcGjnR.png"
-                />
-
-                <div className="flex max-w-3xl items-center rounded-xl text-left" id="hello">
-                    <p>
-                        Certainly! Quantum computing is a new type of computing that relies on
-                        the principles of quantum physics. Traditional computers, like the one
-                        you might be using right now, use bits to store and process
-                        information. These bits can represent either a 0 or a 1. In contrast,
-                        quantum computers use quantum bits, or qubits.<br /><br />
-                        Unlike bits, qubits can represent not only a 0 or a 1 but also a
-                        superposition of both states simultaneously. This means that a qubit
-                        can be in multiple states at once, which allows quantum computers to
-                        perform certain calculations much faster and more efficiently
-                    </p>
-                </div>
-            </div> */}
-                {/* loading */}
-
-
             </div>
 
 
@@ -268,5 +234,6 @@ export default function TextChat() {
             </form>
         </div>
 
-    </div>);
+    </div>
+    );
 }

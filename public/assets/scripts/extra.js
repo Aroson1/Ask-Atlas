@@ -74,7 +74,8 @@ function showChat() {
     // change the text of the button to "Go back"
     $chatbutton.html("Go <br>back");
     $imagebtn.html("Sketch your <br>adventure");
-
+    $imagebtn.addClass('disabled fade');
+    $chatbutton.removeClass('disabled fade');
     textChat.disabled = false;
 }
 
@@ -84,7 +85,8 @@ function hideChat() {
     $infobox.removeClass('hidden');
     $chatbutton.addClass('i');
     $chatbutton.html("Start a new <br>adventure");
-    // $imagebtn.prop('disabled', true);
+    $imagebtn.removeClass('disabled fade');
+    $chatbutton.removeClass('disabled fade');
     textChat.disabled = true;
 }
 
@@ -106,6 +108,8 @@ function showImageChat() {
 
 
     // $chatbutton.prop('disabled', false);
+    $imagebtn.removeClass('disabled fade');
+    $chatbutton.addClass('disabled fade');
     imageChat.disabled = false;
 }
 
@@ -116,7 +120,8 @@ function hideImageChat() {
     $imagebtn.addClass('i');
     $imagebtn.html("Sketch your <br>adventure");
     $chatbutton.html("Start a new <br>adventure");
-
+    $imagebtn.removeClass('disabled fade');
+    $chatbutton.removeClass('disabled fade');
     // $chatbutton.prop('disabled', true);
     imageChat.disabled = true;
 }
