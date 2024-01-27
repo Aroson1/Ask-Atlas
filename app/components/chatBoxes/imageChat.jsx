@@ -13,7 +13,7 @@ import { getBase64 } from '@/app/utils/imageHelper';
  * @returns {JSX.Element} ImageChat component.
  */
 const AiwithImage = () => {
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY);
     const [input, setInput] = useState('');
     const [image, setImage] = useState('');
     const [imageInineData, setImageInlineData] = useState('');
