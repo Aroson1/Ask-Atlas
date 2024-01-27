@@ -22,7 +22,7 @@ function cleanResponse(response) {
 export default function TextChat() {
     // Initializing and setting the state variables
     const MODEL_NAME = "gemini-pro";
-    const API_KEY = "AIzaSyCP6b77wDZov_QKQavjs1aYSDxeL-PgP-g";
+    const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
     const [input, setInput] = useState('');
 
     // Setting up predefined history for the bot
