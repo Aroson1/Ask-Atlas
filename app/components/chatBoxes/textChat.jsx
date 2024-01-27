@@ -111,15 +111,10 @@ export default function TextChat() {
         });
         // Handle user input and display messages
         if (input === '') return;
-        // Clear the input
         setInput('');
 
         // Display user input message on the content box
         var promptBox = document.querySelector('#promptMessages');
-
-        // Send the user input to the chat
-        console.log(input);
-
         promptBox.insertAdjacentHTML(
             'beforeend',
             `
@@ -130,7 +125,17 @@ export default function TextChat() {
                 </div>
                 </div>
 
-                <div class="border border-bluee-300 shadow rounded-xl p-4 bg-white"><div class="animate-pulse flex space-x-4"><div class="rounded-full bg-slate-700 h-10 w-10  p-1"><img class="flex h-8 w-8 rounded-full " src="https://i.imgur.com/ODqFXwb.png"></div><div class="flex-1 space-y-6 py-1"><div class="h-2 bg-slate-700 rounded"></div><div class="space-y-3"><div class="grid grid-cols-3 gap-4"><div class="h-2 bg-slate-700 rounded col-span-2"></div><div class="h-2 bg-slate-700 rounded col-span-1"></div></div><div class="h-2 bg-slate-700 rounded"></div></div></div></div></div>
+                <div class="border border-bluee-300 shadow rounded-xl p-4 bg-white">
+                <div class="animate-pulse flex space-x-4">
+                <div class="rounded-full bg-slate-700 h-10 w-10  p-1">
+                <img class="flex h-8 w-8 rounded-full " src="https://i.imgur.com/ODqFXwb.png">
+                </div><div class="flex-1 space-y-6 py-1">
+                <div class="h-2 bg-slate-700 rounded">
+                </div><div class="space-y-3">
+                <div class="grid grid-cols-3 gap-4">
+                <div class="h-2 bg-slate-700 rounded col-span-2">
+                </div><div class="h-2 bg-slate-700 rounded col-span-1">
+                </div></div><div class="h-2 bg-slate-700 rounded"></div></div></div></div></div>
             `
         )
         // Scroll to the bottom of the content box
@@ -167,6 +172,7 @@ export default function TextChat() {
             // Append the user and the model responses to the chat history in the correct format
             setHistory([...totalHistory, { role: "user", parts: input }, { role: "model", parts: response.text().replaceAll('INSERT_NEW_LINE_HERE', '') }]);
         }
+
         catch (e) {
             // Log the error
             console.log(e);
@@ -249,7 +255,7 @@ export default function TextChat() {
 
                         <textarea
                             id="chat-input"
-                            className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 light:bg-slate-800 light:text-slate-200 light:placeholder-slate-400 light:focus:ring-blue-500 sm:text-base bg-grey placeholder-black text-blue"
+                            className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 light:bg-slate-800 light:text-slate-200 light:placeholder-slate-400 light:focus:ring-blue-500 sm:text-base bg-grey placeholder-blue-500 text-blue"
                             placeholder="Enter your prompt"
                             rows="1"
                             value={input}
