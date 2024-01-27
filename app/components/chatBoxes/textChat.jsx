@@ -111,10 +111,15 @@ export default function TextChat() {
         });
         // Handle user input and display messages
         if (input === '') return;
+        // Clear the input
         setInput('');
 
         // Display user input message on the content box
         var promptBox = document.querySelector('#promptMessages');
+
+        // Send the user input to the chat
+        console.log(input);
+
         promptBox.insertAdjacentHTML(
             'beforeend',
             `
@@ -162,7 +167,6 @@ export default function TextChat() {
             // Append the user and the model responses to the chat history in the correct format
             setHistory([...totalHistory, { role: "user", parts: input }, { role: "model", parts: response.text().replaceAll('INSERT_NEW_LINE_HERE', '') }]);
         }
-
         catch (e) {
             // Log the error
             console.log(e);
