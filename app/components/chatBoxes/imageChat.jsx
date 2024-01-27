@@ -41,7 +41,7 @@ const AiwithImage = () => {
     const handleClick = () => {
         if (input === '') return;
         setInput('');
-        setImage('');
+        
         aiImageRun();
     }
 
