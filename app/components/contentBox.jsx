@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import TextChat from './chatBoxes/textChat';
 import InfoBox from './chatBoxes/infoBox';
 import AiwithImage from './chatBoxes/imageChat';
-import ChatButtons from './elements/chatButtons';
+import ChatButtons from './buttons/chatButtons';
 
 export default function ContentBox() {
     return (

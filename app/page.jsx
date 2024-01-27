@@ -1,6 +1,6 @@
 import Background from "./components/desginElements/background";
 import Tilt from "./components/desginElements/tilt";
-import Toggle from "./components/elements/toggle";
+import Toggle from "./components/buttons/toggle";
 import ContentBox from "./components/contentBox";
 export default function Home() {
   return (
