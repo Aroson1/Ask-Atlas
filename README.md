@@ -8,9 +8,10 @@ This is my submission for the WinterHacks hackathon. Ask Atlas is a web applicat
 To run the application locally, follow these steps:
 
 1. Clone the repository.
-2. Install the dependencies by running `npm install` or `yarn install`.
-3. Start the development server by running `npm run dev` or `yarn dev`.
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+2. Add the API_KEY in a local .env file and add it to the root directory
+3. Install the dependencies by running `npm install` or `yarn install`.
+4. Start the development server by running `npm run dev` or `yarn dev`.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
 ## Tech Stack Used
 
